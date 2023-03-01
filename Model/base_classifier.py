@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 
 
 class BaseClassifier(CSVLoader):
-
     _classifier = None
 
     # Split features from classes
@@ -23,6 +22,11 @@ class BaseClassifier(CSVLoader):
 
     def initClassifier(self):
         pass
+
+    def prepare(self):
+        self.load()
+        self.initClassifier()
+        self.fitClassifier()
 
     def showParameters(self):
         print(self._classifier.get_params())
@@ -48,7 +52,7 @@ class BaseClassifier(CSVLoader):
     def accuracy(pred_y, test_y):
         correct = len(pred_y[pred_y == test_y])
 
-        return correct/len(pred_y)
+        return correct / len(pred_y)
 
     # Wrong/Total
     @staticmethod
@@ -67,7 +71,6 @@ class BaseClassifier(CSVLoader):
         plt.show()
 
     def showRocCurve(self):
-
         _, test_x, train_y, _ = self.splitSet()
 
         if len(set(train_y)) > 2:
@@ -83,6 +86,26 @@ class BaseClassifier(CSVLoader):
 
         plt.plot(fpr, tpr)
         plt.show()
+
+    # Show validation stats
+    def validationResult(self):
+        self.load()
+        self.initClassifier()
+        self.showParameters()
+        self.fitClassifier()
+        prediction = self.predict()
+        print('Predictions:\n', prediction)
+
+        train_x, test_x, train_y, test_y = self.splitSet()
+
+        print(f'Validation set score: {self.score(test_x, test_y)}')
+        print(f'Training set score: {self.score(train_x, train_y)}')
+
+        print(f'Validation set accuracy: {self.accuracy(prediction, test_y)}')
+        print(f'Validation set error rate: {self.error_rate(prediction, test_y)}')
+
+        self.showConfusionMatrix()
+        self.showRocCurve()
 
 
 if __name__ == '__main__':

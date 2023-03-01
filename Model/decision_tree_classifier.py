@@ -10,7 +10,7 @@ class CDecisionTreeClassifier(BaseClassifier):
     def tuneParameters(self):
         depths = list(range(1, 11))
 
-        train_x, test_x, train_y, test_y = classifier.splitSet()
+        train_x, test_x, train_y, test_y = self.splitSet()
         classifiers = list(map(lambda x: DecisionTreeClassifier(max_depth=x, random_state=0), depths))
         for cls in classifiers:
             cls.fit(train_x, train_y)

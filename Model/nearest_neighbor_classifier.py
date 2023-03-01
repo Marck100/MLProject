@@ -10,7 +10,7 @@ class CNearestNeighborClassifier(BaseClassifier):
     def tuneParameters(self):
         k_s = list(range(1, 11))
 
-        train_x, test_x, train_y, test_y = classifier.splitSet()
+        train_x, test_x, train_y, test_y = self.splitSet()
         classifiers = list(map(lambda x: KNeighborsClassifier(x), k_s))
         for cls in classifiers:
             cls.fit(train_x, train_y)
