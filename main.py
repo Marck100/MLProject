@@ -1,7 +1,7 @@
 from Model.menu import MenuItem, Menu
 from Model.analyzer import Analyzer
 
-analyzer = Analyzer('Resources/Customers.csv')
+analyzer = Analyzer('Resources/dataset.csv')
 analyzer.load()
 
 flag = 1

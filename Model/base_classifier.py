@@ -19,9 +19,7 @@ class BaseClassifier(CSVLoader):
 
     def splitSet(self, random_state=0, test_size=0.25):
         x, y = self.prepareSet()
-        train_x, test_x, train_y, test_y = train_test_split(x, y, random_state=random_state, test_size=test_size)
-
-        return train_x, test_x, train_y, test_y
+        return train_test_split(x, y, random_state=random_state, test_size=test_size)
 
     def initClassifier(self):
         pass
@@ -46,13 +44,15 @@ class BaseClassifier(CSVLoader):
         return self._classifier.score(x, y)
 
     # Correct/Total
-    def accuracy(self, pred_y, test_y):
+    @staticmethod
+    def accuracy(pred_y, test_y):
         correct = len(pred_y[pred_y == test_y])
 
         return correct/len(pred_y)
 
     # Wrong/Total
-    def error_rate(self, pred_y, test_y):
+    @staticmethod
+    def error_rate(pred_y, test_y):
         wrong = len(pred_y[pred_y != test_y])
 
         return wrong / len(pred_y)
@@ -67,7 +67,15 @@ class BaseClassifier(CSVLoader):
         plt.show()
 
     def showRocCurve(self):
-        _, test_x, _, _ = self.splitSet()
+
+        _, test_x, train_y, _ = self.splitSet()
+
+        if len(set(train_y)) > 2:
+            print('ERROR:')
+            print('ROC Curve cannot be computed with multi-class problems.')
+            print('-------------------------------------------------------')
+            return
+
         pred_y = self.predict()
         pred_prob_y = self._classifier.predict_proba(test_x)
 
@@ -77,13 +85,8 @@ class BaseClassifier(CSVLoader):
         plt.show()
 
 
-
-
-
 if __name__ == '__main__':
-    classifier = BaseClassifier('../Resources/Customers.csv')
+    classifier = BaseClassifier('../Resources/dataset.csv')
     classifier.load()
 
-    train_x, test_x, train_y, test_y = classifier.splitSet()
-    print(train_x.shape, test_x.shape)
-
+    print(list(map(lambda x: x.size, classifier.splitSet())))

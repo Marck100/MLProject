@@ -15,7 +15,6 @@ class Analyzer(CSVLoader):
         self.calcRedundant(display=True)
         print('-----------------')
 
-
     def calcNone(self, display=False):
         df = self._df
         result = df.isnull().sum()
@@ -38,7 +37,7 @@ class Analyzer(CSVLoader):
 
 
 if __name__ == '__main__':
-    analyzer = Analyzer('../Resources/Customers.csv')
+    analyzer = Analyzer('../Resources/dataset.csv')
     analyzer.load()
 
     analyzer.showStats()

@@ -9,7 +9,7 @@ class CDummyClassifier(BaseClassifier):
 
 
 if __name__ == '__main__':
-    classifier = CDummyClassifier('../Resources/Customers.csv')
+    classifier = CDummyClassifier('../Resources/dataset.csv')
     classifier.load()
     classifier.initClassifier()
     classifier.fitClassifier()
