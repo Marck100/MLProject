@@ -26,6 +26,12 @@ stats_menu_item = MenuItem(
     lambda: analyzer.showStats()
 )
 
+# Random Decision Tree
+# SVM
+# kNN
+# Custom
+# Multiple
+
 dummy_classifier_item = MenuItem(
     'Dummy classifier',
     'Validate prediction on a dummy classifier',
