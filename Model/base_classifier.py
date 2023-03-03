@@ -1,5 +1,5 @@
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix, roc_curve
+from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 from Model.csv_loader import CSVLoader
 import matplotlib.pyplot as plt
 
@@ -71,13 +71,16 @@ class BaseClassifier(CSVLoader):
         plt.show()
 
     # Show validation stats
-    def validationResult(self):
+    def validationResult(self, display_label=''):
         self.load()
         self.initClassifier()
         self.fitClassifier()
         prediction = self.predict()
 
         train_x, test_x, train_y, test_y = self.splitSet()
+
+        print()
+        print(display_label)
 
         print(f'Validation set score: {self.score(test_x, test_y)}')
         print(f'Training set score: {self.score(train_x, train_y)}')
