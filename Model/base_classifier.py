@@ -70,31 +70,12 @@ class BaseClassifier(CSVLoader):
         display.plot()
         plt.show()
 
-    def showRocCurve(self):
-        _, test_x, train_y, _ = self.splitSet()
-
-        if len(set(train_y)) > 2:
-            print('ERROR:')
-            print('ROC Curve cannot be computed with multi-class problems.')
-            print('-------------------------------------------------------')
-            return
-
-        pred_y = self.predict()
-        pred_prob_y = self._classifier.predict_proba(test_x)
-
-        fpr, tpr, _ = roc_curve(pred_y, pred_prob_y[:, 1])
-
-        plt.plot(fpr, tpr)
-        plt.show()
-
     # Show validation stats
     def validationResult(self):
         self.load()
         self.initClassifier()
-        self.showParameters()
         self.fitClassifier()
         prediction = self.predict()
-        print('Predictions:\n', prediction)
 
         train_x, test_x, train_y, test_y = self.splitSet()
 
@@ -105,7 +86,6 @@ class BaseClassifier(CSVLoader):
         print(f'Validation set error rate: {self.error_rate(prediction, test_y)}')
 
         self.showConfusionMatrix()
-        self.showRocCurve()
 
 
 if __name__ == '__main__':

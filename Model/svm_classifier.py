@@ -1,9 +1,9 @@
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 from Model.base_classifier import BaseClassifier
 from sklearn.model_selection import GridSearchCV
 
 
-class CNearestNeighborClassifier(BaseClassifier):
+class SVM(BaseClassifier):
 
     def initClassifier(self):
         self._classifier = self.tuneParameters()
@@ -11,22 +11,21 @@ class CNearestNeighborClassifier(BaseClassifier):
     def tuneParameters(self):
         train_x, _, train_y, _ = self.splitSet()
         params = {
-            'n_neighbors': list(range(1, 20)),
-            'weights': ['uniform', 'distance'],
-            'algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute'],
-            'p': [1, 2]
+            'C': [0.1, 1, 10, 100, 1000],
+            'kernel': ['rbf'],
+            'gamma': ['scale', 'auto']
         }
 
-        search = GridSearchCV(KNeighborsClassifier(), params, scoring='accuracy')
+        search = GridSearchCV(SVC(), params, scoring='accuracy')
         search.fit(train_x, train_y)
 
         best_params = search.best_params_
 
-        return KNeighborsClassifier(**best_params)
+        return SVC(**best_params)
 
 
 if __name__ == '__main__':
-    classifier = CNearestNeighborClassifier('../Resources/dataset.csv')
+    classifier = SVM('../Resources/dataset.csv')
     classifier.load()
     classifier.initClassifier()
     classifier.showParameters()

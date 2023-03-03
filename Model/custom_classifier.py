@@ -80,6 +80,4 @@ if __name__ == '__main__':
     print(f'Validation set accuracy: {classifier.accuracy(prediction, testY)}')
     print(f'Validation set error rate: {classifier.error_rate(prediction, testY)}')
 
-
     classifier.showConfusionMatrix()
-    classifier.showRocCurve()

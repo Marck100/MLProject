@@ -1,5 +1,6 @@
 from sklearn.tree import DecisionTreeClassifier
 from Model.base_classifier import BaseClassifier
+from sklearn.model_selection import RandomizedSearchCV
 
 
 class CDecisionTreeClassifier(BaseClassifier):
@@ -8,14 +9,19 @@ class CDecisionTreeClassifier(BaseClassifier):
         self._classifier = self.tuneParameters()
 
     def tuneParameters(self):
-        depths = list(range(1, 11))
+        train_x, _, train_y, _ = self.splitSet()
+        params = {
+            'criterion': ['gini', 'entropy', 'log_loss'],
+            'splitter': ['best', 'random'],
+            'max_depth': list(range(1, 20))
+        }
 
-        train_x, test_x, train_y, test_y = self.splitSet()
-        classifiers = list(map(lambda x: DecisionTreeClassifier(max_depth=x, random_state=0), depths))
-        for cls in classifiers:
-            cls.fit(train_x, train_y)
+        search = RandomizedSearchCV(DecisionTreeClassifier(), params, n_iter=10, scoring='accuracy')
+        search.fit(train_x, train_y)
 
-        return max(classifiers, key=lambda x: x.score(test_x, test_y))
+        best_params = search.best_params_
+
+        return DecisionTreeClassifier(**best_params)
 
 
 if __name__ == '__main__':
@@ -41,4 +47,3 @@ if __name__ == '__main__':
     print(f'Validation set error rate: {classifier.error_rate(prediction, testY)}')
 
     classifier.showConfusionMatrix()
-    classifier.showRocCurve()
