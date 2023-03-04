@@ -1,4 +1,5 @@
 from Model.base_classifier import BaseClassifier
+from sklearn.model_selection import cross_val_score
 import numpy as np
 
 

@@ -82,7 +82,6 @@ class BaseClassifier(CSVLoader):
         print()
         print(display_label)
 
-        print(f'Validation set score: {self.score(test_x, test_y)}')
         print(f'Training set score: {self.score(train_x, train_y)}')
 
         print(f'Validation set accuracy: {self.accuracy(prediction, test_y)}')
