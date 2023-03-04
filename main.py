@@ -2,35 +2,77 @@ from Model.menu import MenuItem, Menu
 from Model.analyzer import Analyzer
 from Model.decision_tree_classifier import CDecisionTreeClassifier
 from Model.nearest_neighbor_classifier import CNearestNeighborClassifier
+from Model.svm_classifier import SVM
 from Model.custom_classifier import CustomClassifier
 from Model.multi_class_classifier import MultiClassClassifier
 
 analyzer = Analyzer('Resources/dataset.csv')
 analyzer.load()
 
+# Decision Tree Classifier
 decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv')
 decision_tree_classifier.prepare()
 
 sd_decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv', standardized=True)
 sd_decision_tree_classifier.prepare()
 
+fs_decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv', feature_selection=True)
+fs_decision_tree_classifier.prepare()
+
+agg_decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv', feature_aggregation=True)
+agg_decision_tree_classifier.prepare()
+
+# kNN
 nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv')
 nearest_neighbor_classifier.prepare()
 
 sd_nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv', standardized=True)
 sd_nearest_neighbor_classifier.prepare()
 
+fs_nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv', feature_selection=True)
+fs_nearest_neighbor_classifier.prepare()
+
+agg_nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv', feature_aggregation=True)
+agg_nearest_neighbor_classifier.prepare()
+
+# SVM
+svm_classifier = SVM('Resources/dataset.csv')
+svm_classifier.prepare()
+
+sd_svm_classifier = SVM('Resources/dataset.csv', standardized=True)
+sd_svm_classifier.prepare()
+
+fs_svm_classifier = SVM('Resources/dataset.csv', feature_selection=True)
+fs_svm_classifier.prepare()
+
+agg_svm_classifier = SVM('Resources/dataset.csv', feature_aggregation=True)
+agg_svm_classifier.prepare()
+
+# Custom
 custom_classifier = CustomClassifier('Resources/dataset.csv')
 custom_classifier.prepare()
 
 sd_custom_classifier = CustomClassifier('Resources/dataset.csv', standardized=True)
 sd_custom_classifier.prepare()
 
+fs_custom_classifier = CustomClassifier('Resources/dataset.csv', feature_selection=True)
+fs_custom_classifier.prepare()
+
+agg_custom_classifier = CustomClassifier('Resources/dataset.csv', feature_aggregation=True)
+agg_custom_classifier.prepare()
+
+# Multiple
 multiple_classifier = MultiClassClassifier('Resources/dataset.csv')
 multiple_classifier.prepare()
 
 sd_multiple_classifier = MultiClassClassifier('Resources/dataset.csv', standardized=True)
 sd_multiple_classifier.prepare()
+
+fs_multiple_classifier = MultiClassClassifier('Resources/dataset.csv', feature_selection=True)
+fs_multiple_classifier.prepare()
+
+agg_multiple_classifier = MultiClassClassifier('Resources/dataset.csv', feature_aggregation=True)
+agg_multiple_classifier.prepare()
 
 stats_menu_item = MenuItem(
     'Stats',
@@ -47,6 +89,12 @@ decision_tree_classifier_item = MenuItem(
         ),
         sd_decision_tree_classifier.validationResult(
             display_label='Decision Tree Classifier - Stats with standardized dataset'
+        ),
+        fs_decision_tree_classifier.validationResult(
+            display_label='Decision Tree Classifier - Stats with feature selection'
+        ),
+        agg_decision_tree_classifier.validationResult(
+            display_label='Decision Tree Classifier - Stats with feature aggregation'
         )
     ]
 )
@@ -60,6 +108,31 @@ nearest_neighbor_classifier_item = MenuItem(
         ),
         sd_nearest_neighbor_classifier.validationResult(
             display_label='Nearest Neighbor Classifier - Stats with standardized dataset'
+        ),
+        fs_nearest_neighbor_classifier.validationResult(
+            display_label='Nearest Neighbor Classifier - Stats with feature selection'
+        ),
+        agg_nearest_neighbor_classifier.validationResult(
+            display_label='Nearest Neighbor Classifier - Stats with feature aggregation'
+        )
+    ]
+)
+
+svm_classifier_item = MenuItem(
+    'SVM classifier',
+    'Validate prediction on an SVM classifier',
+    lambda: [
+        svm_classifier.validationResult(
+            display_label='SVM - Stats'
+        ),
+        sd_svm_classifier.validationResult(
+            display_label='SVM - Stats with standardized dataset'
+        ),
+        fs_svm_classifier.validationResult(
+            display_label='SVM - Stats with feature selection'
+        ),
+        agg_svm_classifier.validationResult(
+            display_label='SVM - Stats with feature aggregation'
         )
     ]
 )
@@ -73,6 +146,12 @@ custom_classifier_item = MenuItem(
         ),
         sd_custom_classifier.validationResult(
             display_label='Custom Classifier - Stats with standardized dataset'
+        ),
+        fs_custom_classifier.validationResult(
+            display_label='Custom Classifier - Stats with feature selection'
+        ),
+        agg_custom_classifier.validationResult(
+            display_label='Custom Classifier - Stats with feature aggregation'
         )
     ]
 )
@@ -86,6 +165,12 @@ multiple_classifier_item = MenuItem(
         ),
         sd_multiple_classifier.validationResult(
             display_label='Multiple Classifier - Stats with standardized dataset'
+        ),
+        fs_custom_classifier.validationResult(
+            display_label='Custom Classifier - Stats with feature selection'
+        ),
+        agg_custom_classifier.validationResult(
+            display_label='Custom Classifier - Stats with feature aggregation'
         )
     ]
 )
@@ -96,6 +181,7 @@ menu = Menu(
         stats_menu_item,
         decision_tree_classifier_item,
         nearest_neighbor_classifier_item,
+        svm_classifier_item,
         custom_classifier_item,
         multiple_classifier_item
     ])

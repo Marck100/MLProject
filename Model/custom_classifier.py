@@ -1,5 +1,5 @@
 from Model.base_classifier import BaseClassifier
-from sklearn.model_selection import cross_val_score
+from sklearn.metrics import accuracy_score
 import numpy as np
 
 
