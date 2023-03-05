@@ -7,20 +7,49 @@ from Model.custom_classifier import CustomClassifier
 from Model.multi_class_classifier import MultiClassClassifier
 from Model.comparator import Comparator
 
-analyzer = Analyzer('Resources/dataset.csv')
+dataset_item = MenuItem(
+    'Default dataset',
+    'Original dataset without any updates and changes',
+    lambda: None
+)
+
+reduced_dataset_item = MenuItem(
+    'Reduced dataset',
+    'Smaller dataset (faster fits and operations - testing purposes)',
+    lambda: None
+)
+
+dataset_paths = ['Resources/dataset.csv', 'Resources/reduced_dataset.csv']
+
+dataset_menu = Menu(
+    [
+        dataset_item,
+        reduced_dataset_item
+    ]
+)
+
+dataset_menu.show()
+choice = dataset_menu.askForChoice()
+
+if choice == -1:
+    exit(0)
+
+dataset_path = dataset_paths[choice]
+
+analyzer = Analyzer(dataset_path)
 analyzer.load()
 
-balanced_analyzer = Analyzer('Resources/dataset.csv', balanced=True)
+balanced_analyzer = Analyzer(dataset_path, balanced=True)
 balanced_analyzer.load()
 
 # Decision Tree Classifier
-decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv')
-sd_decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv', standardized=True)
-fs_decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv', feature_selection=True)
-agg_decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv', feature_aggregation=True)
-bd_decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv', balanced=True)
+decision_tree_classifier = CDecisionTreeClassifier(dataset_path)
+sd_decision_tree_classifier = CDecisionTreeClassifier(dataset_path, standardized=True)
+fs_decision_tree_classifier = CDecisionTreeClassifier(dataset_path, feature_selection=True)
+agg_decision_tree_classifier = CDecisionTreeClassifier(dataset_path, feature_aggregation=True)
+bd_decision_tree_classifier = CDecisionTreeClassifier(dataset_path, balanced=True)
 all_decision_tree_classifier = CDecisionTreeClassifier(
-    'Resources/dataset.csv',
+    dataset_path,
     standardized=False,
     feature_selection=True,
     feature_aggregation=True,
@@ -28,26 +57,26 @@ all_decision_tree_classifier = CDecisionTreeClassifier(
 )
 
 # kNN
-nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv')
-sd_nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv', standardized=True)
-fs_nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv', feature_selection=True)
-agg_nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv', feature_aggregation=True)
-bd_nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv', balanced=True)
+nearest_neighbor_classifier = CNearestNeighborClassifier(dataset_path)
+sd_nearest_neighbor_classifier = CNearestNeighborClassifier(dataset_path, standardized=True)
+fs_nearest_neighbor_classifier = CNearestNeighborClassifier(dataset_path, feature_selection=True)
+agg_nearest_neighbor_classifier = CNearestNeighborClassifier(dataset_path, feature_aggregation=True)
+bd_nearest_neighbor_classifier = CNearestNeighborClassifier(dataset_path, balanced=True)
 all_nearest_neighbor_classifier = CNearestNeighborClassifier(
-    'Resources/dataset.csv',
+    dataset_path,
     standardized=False,
     feature_selection=True,
     feature_aggregation=True,
     balanced=True
 )
 # SVM
-svm_classifier = SVM('Resources/dataset.csv')
-sd_svm_classifier = SVM('Resources/dataset.csv', standardized=True)
-fs_svm_classifier = SVM('Resources/dataset.csv', feature_selection=True)
-agg_svm_classifier = SVM('Resources/dataset.csv', feature_aggregation=True)
-bd_svm_classifier = SVM('Resources/dataset.csv', balanced=True)
+svm_classifier = SVM(dataset_path)
+sd_svm_classifier = SVM(dataset_path, standardized=True)
+fs_svm_classifier = SVM(dataset_path, feature_selection=True)
+agg_svm_classifier = SVM(dataset_path, feature_aggregation=True)
+bd_svm_classifier = SVM(dataset_path, balanced=True)
 all_svm_classifier = SVM(
-    'Resources/dataset.csv',
+    dataset_path,
     standardized=False,
     feature_selection=False,
     feature_aggregation=False,
@@ -55,13 +84,13 @@ all_svm_classifier = SVM(
 )
 
 # Custom
-custom_classifier = CustomClassifier('Resources/dataset.csv')
-sd_custom_classifier = CustomClassifier('Resources/dataset.csv', standardized=True)
-fs_custom_classifier = CustomClassifier('Resources/dataset.csv', feature_selection=True)
-agg_custom_classifier = CustomClassifier('Resources/dataset.csv', feature_aggregation=True)
-bd_custom_classifier = CustomClassifier('Resources/dataset.csv', balanced=True)
+custom_classifier = CustomClassifier(dataset_path)
+sd_custom_classifier = CustomClassifier(dataset_path, standardized=True)
+fs_custom_classifier = CustomClassifier(dataset_path, feature_selection=True)
+agg_custom_classifier = CustomClassifier(dataset_path, feature_aggregation=True)
+bd_custom_classifier = CustomClassifier(dataset_path, balanced=True)
 all_custom_classifier = CustomClassifier(
-    'Resources/dataset.csv',
+    dataset_path,
     standardized=False,
     feature_selection=True,
     feature_aggregation=True,
@@ -69,13 +98,13 @@ all_custom_classifier = CustomClassifier(
 )
 
 # Multiple
-multiple_classifier = MultiClassClassifier('Resources/dataset.csv')
-sd_multiple_classifier = MultiClassClassifier('Resources/dataset.csv', standardized=True)
-fs_multiple_classifier = MultiClassClassifier('Resources/dataset.csv', feature_selection=True)
-agg_multiple_classifier = MultiClassClassifier('Resources/dataset.csv', feature_aggregation=True)
-bd_multiple_classifier = MultiClassClassifier('Resources/dataset.csv', balanced=True)
+multiple_classifier = MultiClassClassifier(dataset_path)
+sd_multiple_classifier = MultiClassClassifier(dataset_path, standardized=True)
+fs_multiple_classifier = MultiClassClassifier(dataset_path, feature_selection=True)
+agg_multiple_classifier = MultiClassClassifier(dataset_path, feature_aggregation=True)
+bd_multiple_classifier = MultiClassClassifier(dataset_path, balanced=True)
 all_multiple_classifier = MultiClassClassifier(
-    'Resources/dataset.csv',
+    dataset_path,
     standardized=False,
     feature_selection=True,
     feature_aggregation=True,
