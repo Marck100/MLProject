@@ -76,9 +76,6 @@ class BaseClassifier(CSVLoader):
 
     # Show validation stats
     def validationResult(self, display_label=''):
-        self.load()
-        self.initClassifier()
-        self.fitClassifier()
         prediction = self.predict()
 
         train_x, test_x, train_y, test_y = self.splitSet()
@@ -92,6 +89,12 @@ class BaseClassifier(CSVLoader):
         print(f'Validation set error rate: {self.error_rate(prediction, test_y)}')
 
         self.showConfusionMatrix()
+
+    def validationSetAccuracy(self):
+        prediction = self.predict()
+        _, _, _, test_y = self.splitSet()
+
+        return self.accuracy(prediction, test_y)
 
 
 if __name__ == '__main__':

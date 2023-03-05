@@ -5,6 +5,7 @@ from Model.nearest_neighbor_classifier import CNearestNeighborClassifier
 from Model.svm_classifier import SVM
 from Model.custom_classifier import CustomClassifier
 from Model.multi_class_classifier import MultiClassClassifier
+from Model.comparator import Comparator
 
 analyzer = Analyzer('Resources/dataset.csv')
 analyzer.load()
@@ -80,6 +81,60 @@ all_multiple_classifier = MultiClassClassifier(
     feature_aggregation=True,
     balanced=True
 )
+
+classifiers_group = [
+    decision_tree_classifier,
+    nearest_neighbor_classifier,
+    svm_classifier,
+    custom_classifier,
+    multiple_classifier
+]
+sd_classifiers_group = [
+    sd_decision_tree_classifier,
+    sd_nearest_neighbor_classifier,
+    sd_svm_classifier,
+    sd_custom_classifier,
+    sd_multiple_classifier
+]
+fs_classifiers_group = [
+    fs_decision_tree_classifier,
+    fs_nearest_neighbor_classifier,
+    fs_svm_classifier,
+    fs_custom_classifier,
+    fs_multiple_classifier
+]
+agg_classifiers_group = [
+    agg_decision_tree_classifier,
+    agg_nearest_neighbor_classifier,
+    agg_svm_classifier,
+    agg_custom_classifier,
+    agg_multiple_classifier
+]
+bd_classifiers_group = [
+    bd_decision_tree_classifier,
+    bd_nearest_neighbor_classifier,
+    bd_svm_classifier,
+    bd_custom_classifier,
+    bd_multiple_classifier
+]
+all_classifiers_group = [
+    all_decision_tree_classifier,
+    all_nearest_neighbor_classifier,
+    all_svm_classifier,
+    all_custom_classifier,
+    all_multiple_classifier
+]
+
+classifiers_dict = {
+    'Classifiers with no preprocessing': classifiers_group,
+    'Classifiers with standardization': sd_classifiers_group,
+    'Classifiers with feature selection': fs_classifiers_group,
+    'Classifiers with feature aggregation': agg_classifiers_group,
+    'Classifiers with balanced dataset': bd_classifiers_group,
+    'Classifiers with all the previous pre processing techniques (no standardization)': all_classifiers_group
+}
+
+comparator = Comparator(classifiers_dict)
 
 stats_menu_item = MenuItem(
     'Stats',
@@ -245,6 +300,14 @@ multiple_classifier_item = MenuItem(
     ]
 )
 
+comparator_item = MenuItem(
+    'Compare classifiers',
+    'Compare accuracies (validation set) on different classifiers',
+    lambda: [
+        comparator.compareClassifiers()
+    ]
+)
+
 
 menu = Menu(
     [
@@ -253,7 +316,8 @@ menu = Menu(
         nearest_neighbor_classifier_item,
         svm_classifier_item,
         custom_classifier_item,
-        multiple_classifier_item
+        multiple_classifier_item,
+        comparator_item
     ])
 
 while 1:
