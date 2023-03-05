@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 class BaseClassifier(CSVLoader):
     _classifier = None
+    _prepared = False
 
     # Split features from classes
     def prepareSet(self):
@@ -24,9 +25,12 @@ class BaseClassifier(CSVLoader):
         pass
 
     def prepare(self):
-        self.load()
-        self.initClassifier()
-        self.fitClassifier()
+        if not self._prepared:
+            self.load()
+            self.initClassifier()
+            self.fitClassifier()
+
+            self._prepared = True
 
     def showParameters(self):
         print(self._classifier.get_params())
