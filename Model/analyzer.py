@@ -1,5 +1,5 @@
 import numpy
-
+import matplotlib.pyplot as plt
 from Model.csv_loader import CSVLoader
 
 
@@ -25,6 +25,8 @@ class Analyzer(CSVLoader):
         print('\n')
         print(f'Outliers:')
         self.calcOutliers(display=True)
+
+        self.showBalance()
         print('-----------------')
 
     def calcNone(self, display=False):
@@ -83,6 +85,14 @@ class Analyzer(CSVLoader):
                 print(numpy.array(outliers))
                 print()
             index += 1
+
+    def showBalance(self):
+        df = self._df
+        class_column = df.columns[-1]
+
+        n_feature = df[class_column].value_counts()
+        n_feature.plot(kind='bar')
+        plt.show()
 
 
 if __name__ == '__main__':

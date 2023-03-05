@@ -9,6 +9,9 @@ from Model.multi_class_classifier import MultiClassClassifier
 analyzer = Analyzer('Resources/dataset.csv')
 analyzer.load()
 
+balanced_analyzer = Analyzer('Resources/dataset.csv', balanced=True)
+balanced_analyzer.load()
+
 # Decision Tree Classifier
 decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv')
 decision_tree_classifier.prepare()
@@ -21,6 +24,18 @@ fs_decision_tree_classifier.prepare()
 
 agg_decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv', feature_aggregation=True)
 agg_decision_tree_classifier.prepare()
+
+bd_decision_tree_classifier = CDecisionTreeClassifier('Resources/dataset.csv', balanced=True)
+bd_decision_tree_classifier.prepare()
+
+all_decision_tree_classifier = CDecisionTreeClassifier(
+    'Resources/dataset.csv',
+    standardized=False,
+    feature_selection=True,
+    feature_aggregation=True,
+    balanced=True
+)
+all_decision_tree_classifier.prepare()
 
 # kNN
 nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv')
@@ -35,6 +50,18 @@ fs_nearest_neighbor_classifier.prepare()
 agg_nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv', feature_aggregation=True)
 agg_nearest_neighbor_classifier.prepare()
 
+bd_nearest_neighbor_classifier = CNearestNeighborClassifier('Resources/dataset.csv', balanced=True)
+bd_nearest_neighbor_classifier.prepare()
+
+all_nearest_neighbor_classifier = CNearestNeighborClassifier(
+    'Resources/dataset.csv',
+    standardized=False,
+    feature_selection=True,
+    feature_aggregation=True,
+    balanced=True
+)
+all_nearest_neighbor_classifier.prepare()
+
 # SVM
 svm_classifier = SVM('Resources/dataset.csv')
 svm_classifier.prepare()
@@ -47,6 +74,18 @@ fs_svm_classifier.prepare()
 
 agg_svm_classifier = SVM('Resources/dataset.csv', feature_aggregation=True)
 agg_svm_classifier.prepare()
+
+bd_svm_classifier = SVM('Resources/dataset.csv', balanced=True)
+bd_svm_classifier.prepare()
+
+all_svm_classifier = SVM(
+    'Resources/dataset.csv',
+    standardized=False,
+    feature_selection=False,
+    feature_aggregation=False,
+    balanced=True
+)
+all_svm_classifier.prepare()
 
 # Custom
 custom_classifier = CustomClassifier('Resources/dataset.csv')
@@ -61,6 +100,18 @@ fs_custom_classifier.prepare()
 agg_custom_classifier = CustomClassifier('Resources/dataset.csv', feature_aggregation=True)
 agg_custom_classifier.prepare()
 
+bd_custom_classifier = CustomClassifier('Resources/dataset.csv', balanced=True)
+bd_custom_classifier.prepare()
+
+all_custom_classifier = CustomClassifier(
+    'Resources/dataset.csv',
+    standardized=False,
+    feature_selection=True,
+    feature_aggregation=True,
+    balanced=True
+)
+all_custom_classifier.prepare()
+
 # Multiple
 multiple_classifier = MultiClassClassifier('Resources/dataset.csv')
 multiple_classifier.prepare()
@@ -74,10 +125,25 @@ fs_multiple_classifier.prepare()
 agg_multiple_classifier = MultiClassClassifier('Resources/dataset.csv', feature_aggregation=True)
 agg_multiple_classifier.prepare()
 
+bd_multiple_classifier = MultiClassClassifier('Resources/dataset.csv', balanced=True)
+bd_multiple_classifier.prepare()
+
+all_multiple_classifier = MultiClassClassifier(
+    'Resources/dataset.csv',
+    standardized=False,
+    feature_selection=True,
+    feature_aggregation=True,
+    balanced=True
+)
+all_multiple_classifier.prepare()
+
 stats_menu_item = MenuItem(
     'Stats',
     'Show stats (number of records and columns, duplicates, redundant elements)',
-    lambda: analyzer.showStats()
+    lambda: [
+        analyzer.showStats(),
+        balanced_analyzer.showStats()
+    ]
 )
 
 decision_tree_classifier_item = MenuItem(
@@ -95,6 +161,12 @@ decision_tree_classifier_item = MenuItem(
         ),
         agg_decision_tree_classifier.validationResult(
             display_label='Decision Tree Classifier - Stats with feature aggregation'
+        ),
+        bd_decision_tree_classifier.validationResult(
+            display_label='Decision Tree Classifier - Stats with balanced dataset'
+        ),
+        all_decision_tree_classifier.validationResult(
+            display_label='Decision Tree Classifier - Stats with combined preprocessing'
         )
     ]
 )
@@ -114,6 +186,12 @@ nearest_neighbor_classifier_item = MenuItem(
         ),
         agg_nearest_neighbor_classifier.validationResult(
             display_label='Nearest Neighbor Classifier - Stats with feature aggregation'
+        ),
+        bd_nearest_neighbor_classifier.validationResult(
+            display_label='Nearest Neighbor Classifier - Stats with balanced dataset'
+        ),
+        all_nearest_neighbor_classifier.validationResult(
+            display_label='Nearest Neighbor Classifier - Stats with combined preprocessing'
         )
     ]
 )
@@ -133,6 +211,12 @@ svm_classifier_item = MenuItem(
         ),
         agg_svm_classifier.validationResult(
             display_label='SVM - Stats with feature aggregation'
+        ),
+        bd_svm_classifier.validationResult(
+            display_label='SVM - Stats with balanced dataset'
+        ),
+        all_svm_classifier.validationResult(
+            display_label='SVM - Stats with combined preprocessing'
         )
     ]
 )
@@ -152,6 +236,12 @@ custom_classifier_item = MenuItem(
         ),
         agg_custom_classifier.validationResult(
             display_label='Custom Classifier - Stats with feature aggregation'
+        ),
+        bd_custom_classifier.validationResult(
+            display_label='Custom Classifier - Stats with balanced dataset'
+        ),
+        all_custom_classifier.validationResult(
+            display_label='Custom Classifier - Stats with combined preprocessing'
         )
     ]
 )
@@ -171,6 +261,12 @@ multiple_classifier_item = MenuItem(
         ),
         agg_custom_classifier.validationResult(
             display_label='Custom Classifier - Stats with feature aggregation'
+        ),
+        bd_custom_classifier.validationResult(
+            display_label='Custom Classifier - Stats with balanced dataset'
+        ),
+        all_custom_classifier.validationResult(
+            display_label='Custom Classifier - Stats with combined preprocessing'
         )
     ]
 )
