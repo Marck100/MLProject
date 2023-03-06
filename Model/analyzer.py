@@ -1,14 +1,18 @@
+# Needed imports
 import numpy
 import matplotlib.pyplot as plt
 from Model.csv_loader import CSVLoader
 
 
+# Inherit CSVLoader
 class Analyzer(CSVLoader):
 
     def showStats(self):
         # Dataframe loaded with pandas
         df = self._df
+        # Number of records
         records = df.shape[0]
+        # Number of features
         columns = len(df.columns)
 
         # Show stats (dataset quality and indexes)
@@ -18,14 +22,18 @@ class Analyzer(CSVLoader):
         print()
         print(f'{records} records')
         print(f'{columns} columns')
+        # None values
         self.calcNone(display=True)
+        # Redundant values
         self.calcRedundant(display=True)
         print()
 
         print('\n')
         print(f'Outliers:')
+        # Outliers
         self.calcOutliers(display=True)
 
+        # Show balance (records per class)
         self.showBalance()
         print('-----------------')
 
@@ -90,6 +98,7 @@ class Analyzer(CSVLoader):
         df = self._df
         class_column = df.columns[-1]
 
+        # Number of records per class
         n_feature = df[class_column].value_counts()
         n_feature.plot(kind='bar')
         plt.show()
