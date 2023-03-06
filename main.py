@@ -4,7 +4,7 @@ from Model.decision_tree_classifier import CDecisionTreeClassifier
 from Model.nearest_neighbor_classifier import CNearestNeighborClassifier
 from Model.svm_classifier import SVM
 from Model.custom_classifier import CustomClassifier
-from Model.multi_class_classifier import MultiClassClassifier
+from Model.multiple_classifier import MultipleClassifier
 from Model.comparator import Comparator
 
 # Show menu for dataset selection
@@ -102,12 +102,12 @@ all_custom_classifier = CustomClassifier(
 )
 
 # Multiple (kNN + decision tree)
-multiple_classifier = MultiClassClassifier(dataset_path)
-sd_multiple_classifier = MultiClassClassifier(dataset_path, standardized=True)
-fs_multiple_classifier = MultiClassClassifier(dataset_path, feature_selection=True)
-agg_multiple_classifier = MultiClassClassifier(dataset_path, feature_aggregation=True)
-bd_multiple_classifier = MultiClassClassifier(dataset_path, balanced=True)
-all_multiple_classifier = MultiClassClassifier(
+multiple_classifier = MultipleClassifier(dataset_path)
+sd_multiple_classifier = MultipleClassifier(dataset_path, standardized=True)
+fs_multiple_classifier = MultipleClassifier(dataset_path, feature_selection=True)
+agg_multiple_classifier = MultipleClassifier(dataset_path, feature_aggregation=True)
+bd_multiple_classifier = MultipleClassifier(dataset_path, balanced=True)
+all_multiple_classifier = MultipleClassifier(
     dataset_path,
     standardized=False,
     feature_selection=True,

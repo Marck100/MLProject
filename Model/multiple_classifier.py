@@ -6,7 +6,7 @@ from sklearn.ensemble import VotingClassifier
 
 
 # Inherit BaseClassifier
-class MultiClassClassifier(BaseClassifier):
+class MultipleClassifier(BaseClassifier):
 
     def initClassifier(self):
         # Uses nearest neighbor and decision tree
@@ -20,7 +20,7 @@ class MultiClassClassifier(BaseClassifier):
 
 
 if __name__ == '__main__':
-    classifier = MultiClassClassifier('../Resources/dataset.csv')
+    classifier = MultipleClassifier('../Resources/dataset.csv')
     classifier.load()
     classifier.initClassifier()
     classifier.showParameters()
