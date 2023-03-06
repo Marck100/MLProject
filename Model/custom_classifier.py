@@ -1,10 +1,10 @@
+# Needed imports
 from Model.base_classifier import BaseClassifier
-from sklearn.metrics import accuracy_score
 import numpy as np
 
 
+# Inherit BaseClassifier
 class CustomClassifier(BaseClassifier):
-    _l_s = []
 
     def initClassifier(self):
         pass
@@ -22,6 +22,7 @@ class CustomClassifier(BaseClassifier):
         def predict(X):
             difference = []
             for element in train_x:
+                # Calc difference for each feature
                 differences = np.asarray(abs(element - X))
                 difference += [differences.mean()]
 
