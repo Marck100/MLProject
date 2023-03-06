@@ -1,26 +1,32 @@
+# Needed imports
 from sklearn.tree import DecisionTreeClassifier
 from Model.base_classifier import BaseClassifier
 from sklearn.model_selection import RandomizedSearchCV
 
 
+# Inherit BaseClassifier
 class CDecisionTreeClassifier(BaseClassifier):
 
     def initClassifier(self):
         self._classifier = self.tuneParameters()
 
+    # Return the best classifier
     def tuneParameters(self):
         train_x, _, train_y, _ = self.splitSet()
+        # Params for tuning
         params = {
             'criterion': ['gini', 'entropy', 'log_loss'],
             'splitter': ['best', 'random'],
             'max_depth': list(range(1, 20))
         }
 
+        # Tuning
         search = RandomizedSearchCV(DecisionTreeClassifier(), params, n_iter=10, scoring='accuracy')
         search.fit(train_x, train_y)
 
         best_params = search.best_params_
 
+        # Return classifier with best parameters
         return DecisionTreeClassifier(**best_params)
 
 
