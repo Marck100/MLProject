@@ -1,15 +1,19 @@
+# Needed imports
 from sklearn.neighbors import KNeighborsClassifier
 from Model.base_classifier import BaseClassifier
 from sklearn.model_selection import GridSearchCV
 
 
+# Inherit BaseClassifier
 class CNearestNeighborClassifier(BaseClassifier):
 
     def initClassifier(self):
         self._classifier = self.tuneParameters()
 
+    # Return the best classifier
     def tuneParameters(self):
         train_x, _, train_y, _ = self.splitSet()
+        # Params for tuning
         params = {
             'n_neighbors': list(range(1, 20)),
             'weights': ['uniform', 'distance'],
@@ -17,11 +21,13 @@ class CNearestNeighborClassifier(BaseClassifier):
             'p': [1, 2]
         }
 
+        # Tuning
         search = GridSearchCV(KNeighborsClassifier(), params, scoring='accuracy')
         search.fit(train_x, train_y)
 
         best_params = search.best_params_
 
+        # Return classifier with best parameters
         return KNeighborsClassifier(**best_params)
 
 
