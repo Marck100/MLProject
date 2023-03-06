@@ -1,12 +1,15 @@
+# Needed imports
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from Model.base_classifier import BaseClassifier
 from sklearn.ensemble import VotingClassifier
 
 
+# Inherit BaseClassifier
 class MultiClassClassifier(BaseClassifier):
 
     def initClassifier(self):
+        # Uses nearest neighbor and decision tree
         k_nn = KNeighborsClassifier(1)
         d_tree = DecisionTreeClassifier()
 
