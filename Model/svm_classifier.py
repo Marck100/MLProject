@@ -1,26 +1,32 @@
+# Needed imports
 from sklearn.svm import SVC
 from Model.base_classifier import BaseClassifier
 from sklearn.model_selection import GridSearchCV
 
 
+# Inherit BaseClassifier
 class SVM(BaseClassifier):
 
     def initClassifier(self):
         self._classifier = self.tuneParameters()
 
+    # Return the best classifier
     def tuneParameters(self):
         train_x, _, train_y, _ = self.splitSet()
+        # Params for tuning
         params = {
             'C': [0.1, 1, 10, 100, 1000],
             'kernel': ['rbf'],
             'gamma': ['scale', 'auto']
         }
 
+        # Tuning
         search = GridSearchCV(SVC(), params, scoring='accuracy')
         search.fit(train_x, train_y)
 
         best_params = search.best_params_
 
+        # Return classifier with best parameters
         return SVC(**best_params)
 
 
