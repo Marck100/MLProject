@@ -7,6 +7,7 @@ from Model.custom_classifier import CustomClassifier
 from Model.multi_class_classifier import MultiClassClassifier
 from Model.comparator import Comparator
 
+# Show menu for dataset selection
 dataset_item = MenuItem(
     'Default dataset',
     'Original dataset without any updates and changes',
@@ -34,11 +35,13 @@ choice = dataset_menu.askForChoice()
 if choice == -1:
     exit(0)
 
+# Selected dataset
 dataset_path = dataset_paths[choice]
 
+# Initialize analyzer (used for showing stats) + load
 analyzer = Analyzer(dataset_path)
 analyzer.load()
-
+# Analyzed with balanced dataset
 balanced_analyzer = Analyzer(dataset_path, balanced=True)
 balanced_analyzer.load()
 
@@ -69,6 +72,7 @@ all_nearest_neighbor_classifier = CNearestNeighborClassifier(
     feature_aggregation=True,
     balanced=True
 )
+
 # SVM
 svm_classifier = SVM(dataset_path)
 sd_svm_classifier = SVM(dataset_path, standardized=True)
@@ -97,7 +101,7 @@ all_custom_classifier = CustomClassifier(
     balanced=True
 )
 
-# Multiple
+# Multiple (kNN + decision tree)
 multiple_classifier = MultiClassClassifier(dataset_path)
 sd_multiple_classifier = MultiClassClassifier(dataset_path, standardized=True)
 fs_multiple_classifier = MultiClassClassifier(dataset_path, feature_selection=True)
@@ -111,6 +115,8 @@ all_multiple_classifier = MultiClassClassifier(
     balanced=True
 )
 
+# Classifiers divided by preprocessing methods
+# No preprocessing
 classifiers_group = [
     decision_tree_classifier,
     nearest_neighbor_classifier,
@@ -118,6 +124,7 @@ classifiers_group = [
     custom_classifier,
     multiple_classifier
 ]
+# Standardization
 sd_classifiers_group = [
     sd_decision_tree_classifier,
     sd_nearest_neighbor_classifier,
@@ -125,6 +132,7 @@ sd_classifiers_group = [
     sd_custom_classifier,
     sd_multiple_classifier
 ]
+# Feature selection
 fs_classifiers_group = [
     fs_decision_tree_classifier,
     fs_nearest_neighbor_classifier,
@@ -132,6 +140,7 @@ fs_classifiers_group = [
     fs_custom_classifier,
     fs_multiple_classifier
 ]
+# Feature aggregation
 agg_classifiers_group = [
     agg_decision_tree_classifier,
     agg_nearest_neighbor_classifier,
@@ -139,6 +148,7 @@ agg_classifiers_group = [
     agg_custom_classifier,
     agg_multiple_classifier
 ]
+# Balanced datasets
 bd_classifiers_group = [
     bd_decision_tree_classifier,
     bd_nearest_neighbor_classifier,
@@ -146,6 +156,8 @@ bd_classifiers_group = [
     bd_custom_classifier,
     bd_multiple_classifier
 ]
+
+# All methods without standardization
 all_classifiers_group = [
     all_decision_tree_classifier,
     all_nearest_neighbor_classifier,
@@ -163,8 +175,11 @@ classifiers_dict = {
     'Classifiers with all the previous pre processing techniques (no standardization)': all_classifiers_group
 }
 
+# Compare classifiers
 comparator = Comparator(classifiers_dict)
 
+# Menu initialization (items + menu)
+# Option 1
 stats_menu_item = MenuItem(
     'Stats',
     'Show stats (number of records and columns, duplicates, redundant elements)',
@@ -174,6 +189,7 @@ stats_menu_item = MenuItem(
     ]
 )
 
+# Option 2
 decision_tree_classifier_item = MenuItem(
     'Decision tree classifier',
     'Validate prediction on a decision tree classifier',
@@ -205,6 +221,7 @@ decision_tree_classifier_item = MenuItem(
     ]
 )
 
+# Option 3
 nearest_neighbor_classifier_item = MenuItem(
     'Nearest neighbor classifier',
     'Validate prediction on a nearest neighbor classifier',
@@ -236,6 +253,7 @@ nearest_neighbor_classifier_item = MenuItem(
     ]
 )
 
+# Option 4
 svm_classifier_item = MenuItem(
     'SVM classifier',
     'Validate prediction on an SVM classifier',
@@ -267,6 +285,7 @@ svm_classifier_item = MenuItem(
     ]
 )
 
+# Option 5
 custom_classifier_item = MenuItem(
     'Custom classifier',
     'Validate prediction on a custom classifier',
@@ -298,6 +317,7 @@ custom_classifier_item = MenuItem(
     ]
 )
 
+# Option 6
 multiple_classifier_item = MenuItem(
     'Multiple classifier',
     'Validate prediction on a multiple classifier',
@@ -329,6 +349,7 @@ multiple_classifier_item = MenuItem(
     ]
 )
 
+# Option 7
 comparator_item = MenuItem(
     'Compare classifiers',
     'Compare accuracies (validation set) on different classifiers',
@@ -349,6 +370,7 @@ menu = Menu(
         comparator_item
     ])
 
+# Show menu until program ends
 while 1:
     menu.show()
     if menu.askForChoice() == -1:
